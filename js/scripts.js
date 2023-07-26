@@ -38,12 +38,16 @@ let pokemonRepository = (function () {
     //Put the item in the pokemonList onto the page
     function addListItem(pokedexEntry, index) {
         //Find list in document and set to a variable
-        let list = document.querySelector(".list");
+        let list = document.querySelector(".row");
 
         //Create list item
         let listItem = document.createElement("li");
+        $(listItem).addClass("list-group-item col-12 col-md-6 col-lg-4");
         //Create button in the list item
         let button = document.createElement("button");
+        button.classList.add("btn");
+        $(button).attr("data-bs-toggle","modal");
+        $(button).attr("data-bs-target","#modal-container");
         //Create image for sprite
         let imgSprite = document.createElement("img");
 
@@ -173,155 +177,79 @@ let pokemonRepository = (function () {
 let listModal = (function () {
     //Function for showing the modal
     function showModal(pokedexEntry) {
-        //find the modal container and assign it to variable
-        let modalContainer = document.querySelector('#modal-container');
+        //find the modal containers and assign it to variable
+        let modalImageContainer = $('.modal-image');
+        let modalContent = $('.modal-content__info');
+        
 
         // Clear all existing modal content
-        modalContainer.innerHTML = '';
+        modalImageContainer.empty();
+        modalContent.empty();
 
-
-
-
-
-
-        //Structure Creation
-        //create new div for modal
-        let modal = document.createElement('div');
-        modal.classList.add('modal');
-
-        //Create modal header
-        let modalHeader = document.createElement('div');
-        modalHeader.classList.add('modal-header');
-
-        //Create close button
-        let closeButtonElement = document.createElement('button');
-        closeButtonElement.classList.add('modal-close');
-        closeButtonElement.innerText = 'Close';
-        closeButtonElement.addEventListener('click', hideModal);
-
-        //Create modal content
-        let modalContent = document.createElement('div');
-        modalContent.classList.add('modal-content');
-
-        //Create modal container and image
-        let modalImageContainer = document.createElement('div');
-        modalImageContainer.classList.add('modal-image');
-        let modalImage = document.createElement('img');
-        modalImage.src = pokedexEntry.imageUrl;
+        // //Create modal container and image
+        let modalImage = $(`<img></img>`);
+        modalImage.attr("src", pokedexEntry.imageUrl);
 
         //Create modal title AKA Entry No. and Pokemon Name
-        let titleElement = document.createElement('h1');
-        //titleElement.innerText = `No.${pokedexEntry.number}: ${pokedexEntry.name}`;
-        titleElement.innerHTML = `No.${pokedexEntry.number}: `;
+        let titleElement = $(`<h1 class="modal-title">No. ${pokedexEntry.number}: `);
+
         switch(pokedexEntry.name){
             case "Nidoran-f":
-                titleElement.innerHTML += `${pokedexEntry.name.replace("-f", "&#9792;")}`;
+                titleElement.html(`${pokedexEntry.name.replace("-f", "&#9792;")}</h1>`);
                 break;
             case "Nidoran-m":
-                titleElement.innerHTML += `${pokedexEntry.name.replace("-m", "&#9794;")}`;
+                titleElement.html(`${pokedexEntry.name.replace("-m", "&#9794;")}</h1>`);
                 break;
             case "Mr-mime":
-                titleElement.innerHTML += `${pokedexEntry.name.replace("-m", ". M")}`;
+                titleElement.html(`${pokedexEntry.name.replace("-m", ". M")}</h1>`);
                 break;
             default:
-                titleElement.innerHTML += `${pokedexEntry.name}`;
+                titleElement.html(`${pokedexEntry.name} </h1>`);
         };
-        titleElement.classList.add('modal-title');
 
-        //Create div for content info
-        let modalInfo = document.createElement('div');
-        modalInfo.classList.add('modal-content__info');
-
-        //Create subtitle for genus
-        let subtitle = document.createElement('div');
-        subtitle.innerText = pokedexEntry.genus;
-        subtitle.classList.add('subtitle');
+        // //Create subtitle for genus
+        let subtitle = $(`<div class="subtitle">${pokedexEntry.genus}</div>`);
 
 
-        //Create height class
-        let height = document.createElement('div');
-        height.innerHTML = `Height: ${pokedexEntry.height}m<br>Weight: ${pokedexEntry.weight}kg`;
-        height.classList.add('height');
+        // //Create height class
+        let height = $(`<div class="height">Height: ${pokedexEntry.height}m<br>Weight: ${pokedexEntry.weight}kg</div>`);
 
 
 
 
 
 
-        //Append all the items 
-        modalContainer.appendChild(modal);
+        // //Append all the items 
+        modalImageContainer.append(modalImage);
 
-        modal.appendChild(modalHeader);
-        modal.appendChild(modalContent);
+        // modalInfo.appendChild(titleElement);
+        modalContent.append(titleElement);
+        modalContent.append(subtitle);
 
-        modalHeader.appendChild(closeButtonElement);
-
-        modalContent.appendChild(modalImageContainer);
-        modalContent.appendChild(modalInfo);
-
-        modalImageContainer.appendChild(modalImage);
-
-        modalInfo.appendChild(titleElement);
-        modalInfo.appendChild(subtitle);
-
-        //need to create typing element here so we can use the
-        //for each for each function so it can accomodate for
-        //the single or double typing of pokemon
+        // //need to create typing element here so we can use the
+        // //for each for each function so it can accomodate for
+        // //the single or double typing of pokemon
         pokedexEntry.types.forEach(function (typeObj) {
             let typeName = typeObj.type.name.charAt(0).toUpperCase() + typeObj.type.name.slice(1);
             //console.log(type);
-            let typingLabel = document.createElement('div');
-            typingLabel.innerText = typeName;
-            typingLabel.classList.add('type', typeName);
-            modalInfo.appendChild(typingLabel);
+            let typingLabel = $(`<div class = "type ${typeName}">${typeName}</div>`);
+            //typingLabel.addClass('type').addClass(typeName);
+            modalContent.append(typingLabel);
         });
 
-        modalInfo.appendChild(height);
+        modalContent.append(height);
 
-        let baseStatTitle = document.createElement('h2');
-        baseStatTitle.innerText = "BASE STATS"
-        modalInfo.appendChild(baseStatTitle);
+        let baseStatTitle = $(`<h2>BASE STATS</h2>`);
+        //baseStatTitle.innerText = "BASE STATS"
+        modalContent.append(baseStatTitle);
         //Add each base stat, same as typing function
         pokedexEntry.baseStats.forEach(function(statObj){
-            let statblock = document.createElement('div');
-            statblock.innerHTML = `<b>${statObj.name}</b>: ${statObj.value}`;
-            modalInfo.appendChild(statblock);
+            let statblock = $(`<div><b>${statObj.name}</b>: ${statObj.value}</div>`);
+            modalContent.append(statblock);
         });
 
-        //add class to make it visible
-        modalContainer.classList.add('is-visible');
-
-
-
-
-
-
-        modalContainer.addEventListener('click', (e) => {
-            // Since this is also triggered when clicking INSIDE the modal
-            // We only want to close if the user clicks directly on the overlay
-            let target = e.target;
-            if (target === modalContainer) {
-                hideModal();
-            }
-        });
     }
 
-    //select the show-modal id (attached to the button)
-    // document.querySelector('#show-modal').addEventListener('click', () => {
-    //     showModal('No.6 Charizard', 'Flame Pokemon', 'Fire', 'Flying', 1.7, 'https://archives.bulbagarden.net/media/upload/3/38/0006Charizard.png');
-    // });
-
-    //hide modal after input
-    function hideModal() {
-        let modalContainer = document.querySelector('#modal-container');
-        modalContainer.classList.remove('is-visible');
-    }
-    window.addEventListener('keydown', (e) => {
-        let modalContainer = document.querySelector('#modal-container');
-        if (e.key === 'Escape' && modalContainer.classList.contains('is-visible')) {
-            hideModal();
-        }
-    });
 
     return {
         showModal: showModal
@@ -352,6 +280,7 @@ pokemonRepository.loadList().then(function () {
     pokemonRepository.getAll().forEach(function (pokedexEntry, index) { //go through each entry
         pokemonRepository.addListItem(pokedexEntry, index); //and then add that item to the list
     });
+    
 });
 
 

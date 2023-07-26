@@ -46,12 +46,21 @@ ul{
     row-gap: 10px;
 }
 
-li{
-    list-style-type: none;
-    position: relative;
+.list{
+    padding-top: 10px;
+    padding-bottom: 20px;
 }
 
-button{
+.list-group-item{
+    list-style-type: none;
+    position: relative;
+    padding: 0;
+    background-color: transparent;
+}
+
+
+
+.btn{
     width: 100%;
     height: 65px;
     background-color: rgb(255, 255, 255);
@@ -68,10 +77,11 @@ button{
     transition: all 0.3s ease;
 }
 
-button:hover{
+.btn:hover{
     background-color: rgb(192, 51, 51);
     color: white;
-    transition: all 0.5s ease-out;
+    transition: all 0.3s ease-out;
+    border: 3px black solid;
 }
 
 .sprite{
@@ -80,59 +90,18 @@ button:hover{
     margin-top: -22px;
 }
 
-/* #show-modal{
-    width: 100px;
-    text-align: center;
-    height: auto;
-    padding: 5px;
-    background-image: none;
-    font-size: .3em;
-    float: right;
-    margin-top: 10px;
-} */
-
-#modal-container {
-  display: none;
-}
-
-#modal-container.is-visible {
-  position: fixed;
-  padding: 20px;
-  box-sizing: border-box;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.6);
-  z-index: 999; 
-  overflow: auto; 
-  display: grid;
-}
-
-.modal{
-    width: 60%;
-    max-width: 700px;
-    height: 500px;
-    margin: auto;
-    background-color: white;
-    border: rgb(0, 0, 0) 7px solid;
-    border-radius: 20px;
-    position: relative;
-    overflow: auto;
-}
-
 .modal-header{
     width: 100%;
     position: sticky;
     background-image: linear-gradient(to bottom, white 80%, transparent 100%) ;
     z-index: 10;
-    padding: 25px 20px 25px 0;
-    margin-top: -140px;
+    padding: 15px 0;
+    margin-top: -100px;
     top: 0;
-    text-align: right;
+    justify-content: flex-end;
 }
 
-.modal-close{
+.close{
     width: auto;
     height: auto;
     background-color: transparent;
@@ -143,13 +112,19 @@ button:hover{
     transition: all 0.2s ease;
 }
 
-.modal-close:hover{
+.close:hover{
     background-color: white;
     color: rgb(192, 51, 51);
     transition: all 0.2s ease;
 }
 
 .modal-content{
+    max-width: 700px;
+    height: 500px;
+    margin: auto;
+    background-color: white;
+    border: rgb(0, 0, 0) 7px solid;
+    border-radius: 20px;
     position: relative;
     height: 100%;
     padding: 115px 25px 20px 25px;
@@ -186,6 +161,7 @@ button:hover{
     top:20px;
     z-index: 10;
     font-size: 2em;
+    margin-top: 13px;
 }
 
 .modal-content__info{
@@ -193,10 +169,10 @@ button:hover{
     width: 50%;
     line-height: normal;
     padding-bottom: 30px;
+    position: relative;
 }
 
 .subtitle{
-    margin-top: -15px;
     font-size: 1.3em;
     margin-bottom: 5px;
 }
@@ -292,19 +268,9 @@ button:hover{
     ul{
         grid-template-columns: 1fr 1fr;
     }
-    .modal{
-        width: 70%;
-    }
 }
 
 @media screen and (max-width: 700px){
-    .modal{
-        height: 65vh;
-        width: 70%;
-        background-position: 50% 2%;
-        background-size: 130%;
-        background-repeat: no-repeat;
-    }
     .modal-image{
         float: none;
         width: 100%;
@@ -324,10 +290,6 @@ button:hover{
 }
 
 @media screen and (max-width: 480px){
-    .modal{
-        height: 90%;
-        width: 90%;
-    }
     ul{
         display: block;
     }
