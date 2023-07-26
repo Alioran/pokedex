@@ -46,21 +46,12 @@ ul{
     row-gap: 10px;
 }
 
-.list{
-    padding-top: 10px;
-    padding-bottom: 20px;
-}
-
-.list-group-item{
+li{
     list-style-type: none;
     position: relative;
-    padding: 0;
-    background-color: transparent;
 }
 
-
-
-.btn{
+button{
     width: 100%;
     height: 65px;
     background-color: rgb(255, 255, 255);
@@ -77,11 +68,10 @@ ul{
     transition: all 0.3s ease;
 }
 
-.btn:hover{
+button:hover{
     background-color: rgb(192, 51, 51);
     color: white;
-    transition: all 0.3s ease-out;
-    border: 3px black solid;
+    transition: all 0.5s ease-out;
 }
 
 .sprite{
@@ -90,18 +80,59 @@ ul{
     margin-top: -22px;
 }
 
+/* #show-modal{
+    width: 100px;
+    text-align: center;
+    height: auto;
+    padding: 5px;
+    background-image: none;
+    font-size: .3em;
+    float: right;
+    margin-top: 10px;
+} */
+
+#modal-container {
+  display: none;
+}
+
+#modal-container.is-visible {
+  position: fixed;
+  padding: 20px;
+  box-sizing: border-box;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 999; 
+  overflow: auto; 
+  display: grid;
+}
+
+.modal{
+    width: 60%;
+    max-width: 700px;
+    height: 500px;
+    margin: auto;
+    background-color: white;
+    border: rgb(0, 0, 0) 7px solid;
+    border-radius: 20px;
+    position: relative;
+    overflow: auto;
+}
+
 .modal-header{
     width: 100%;
     position: sticky;
     background-image: linear-gradient(to bottom, white 80%, transparent 100%) ;
     z-index: 10;
-    padding: 15px 0;
-    margin-top: -100px;
+    padding: 25px 20px 25px 0;
+    margin-top: -140px;
     top: 0;
-    justify-content: flex-end;
+    text-align: right;
 }
 
-.close{
+.modal-close{
     width: auto;
     height: auto;
     background-color: transparent;
@@ -112,19 +143,13 @@ ul{
     transition: all 0.2s ease;
 }
 
-.close:hover{
+.modal-close:hover{
     background-color: white;
     color: rgb(192, 51, 51);
     transition: all 0.2s ease;
 }
 
 .modal-content{
-    max-width: 700px;
-    height: 500px;
-    margin: auto;
-    background-color: white;
-    border: rgb(0, 0, 0) 7px solid;
-    border-radius: 20px;
     position: relative;
     height: 100%;
     padding: 115px 25px 20px 25px;
@@ -161,7 +186,6 @@ ul{
     top:20px;
     z-index: 10;
     font-size: 2em;
-    margin-top: 13px;
 }
 
 .modal-content__info{
@@ -169,10 +193,10 @@ ul{
     width: 50%;
     line-height: normal;
     padding-bottom: 30px;
-    position: relative;
 }
 
 .subtitle{
+    margin-top: -15px;
     font-size: 1.3em;
     margin-bottom: 5px;
 }
@@ -268,9 +292,19 @@ ul{
     ul{
         grid-template-columns: 1fr 1fr;
     }
+    .modal{
+        width: 70%;
+    }
 }
 
 @media screen and (max-width: 700px){
+    .modal{
+        height: 65vh;
+        width: 70%;
+        background-position: 50% 2%;
+        background-size: 130%;
+        background-repeat: no-repeat;
+    }
     .modal-image{
         float: none;
         width: 100%;
@@ -290,6 +324,10 @@ ul{
 }
 
 @media screen and (max-width: 480px){
+    .modal{
+        height: 90%;
+        width: 90%;
+    }
     ul{
         display: block;
     }
