@@ -1,9 +1,17 @@
+/*
+* Prefixed by https://autoprefixer.github.io
+* PostCSS: v8.4.14,
+* Autoprefixer: v10.4.7
+* Browsers: last 4 version
+*/
+
 *{
     font-family: 'Roboto', sans-serif;
     font-size: 1em;
     text-decoration: none;
     line-height: normal;
-    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
 }
 
 body{
@@ -38,9 +46,13 @@ header svg{
 
 ul{
     padding: 0;
+    display: -ms-grid;
     display: grid;
+    -ms-grid-columns: 1fr 10px 1fr 10px 1fr;
     grid-template-columns: 1fr 1fr 1fr;
-    column-gap: 10px;
+    -webkit-column-gap: 10px;
+       -moz-column-gap: 10px;
+            column-gap: 10px;
     row-gap: 10px;
 }
 
@@ -63,12 +75,16 @@ button{
     vertical-align: middle;
     text-align: left;
     font-weight: 700;
+    -webkit-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
     transition: all 0.3s ease;
 }
 
 button:hover{
     background-color: rgb(192, 51, 51);
     color: white;
+    -webkit-transition: all 0.3s ease-out;
+    -o-transition: all 0.3s ease-out;
     transition: all 0.3s ease-out;
 }
 
@@ -85,18 +101,24 @@ button:hover{
   opacity: 0;
   padding: 20px;
   z-index: -999;
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   background: rgba(0, 0, 0, 0.6); 
   overflow: auto; 
+  display: -ms-grid; 
   display: grid;
   width: 100%;
   height: 100%;
+  -webkit-transition: z-index 0.5s step-end, opacity .2s ease;
+  -o-transition: z-index 0.5s step-end, opacity .2s ease;
   transition: z-index 0.5s step-end, opacity .2s ease;
 }
 
 #modal-container.is-visible {
     opacity: 1;
     z-index: 999;
+  -webkit-transition: opacity .2s ease;
+  -o-transition: opacity .2s ease;
   transition: opacity .2s ease;
 }
 
@@ -115,6 +137,8 @@ button:hover{
 .modal-header{
     width: 100%;
     position: sticky;
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(80%, white), to(transparent)) ;
+    background-image: -o-linear-gradient(top, white 80%, transparent 100%) ;
     background-image: linear-gradient(to bottom, white 80%, transparent 100%) ;
     z-index: 10;
     padding: 20px 20px 25px 0;
@@ -131,6 +155,8 @@ button:hover{
     border: 0;
     border-radius: 0;
     padding: 0;
+    -webkit-transition: all 0.2s ease;
+    -o-transition: all 0.2s ease;
     transition: all 0.2s ease;
     font-size: 1.7em;
 }
@@ -138,6 +164,8 @@ button:hover{
 .modal-close:hover{
     background-color: white;
     color: rgb(192, 51, 51);
+    -webkit-transition: all 0.2s ease;
+    -o-transition: all 0.2s ease;
     transition: all 0.2s ease;
 }
 
@@ -150,8 +178,12 @@ button:hover{
 .modal-image{
     height: 350px;
     width: 45%;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    justify-content: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
     overflow: hidden;
     float: right;
     margin-top: 25px;
@@ -162,11 +194,13 @@ button:hover{
     background-position: 50% 50%;
     background-repeat: no-repeat;
     border-radius: 15px;
-    box-shadow: 0 0 10px #afaaa4d1;
+    -webkit-box-shadow: 0 0 10px #afaaa4d1;
+            box-shadow: 0 0 10px #afaaa4d1;
 }
 .modal-image img{
     width: 95%;
-    object-fit: contain;
+    -o-object-fit: contain;
+       object-fit: contain;
 }
 
 .height{
@@ -282,6 +316,7 @@ button:hover{
         width: 90%;
     }
     ul{
+        -ms-grid-columns: 1fr 1fr;
         grid-template-columns: 1fr 1fr;
     }
     .modal{
