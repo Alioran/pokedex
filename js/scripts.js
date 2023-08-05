@@ -29,6 +29,7 @@ let pokemonRepository = (function () {
             //then add the rest of the letters
             name: item.name.charAt(0).toUpperCase() + item.name.slice(1),
             detailsUrl: item.url,
+            num: pokemonList.length+1
           };
           //add pokemon onto pokemonList
           add(pokemon);
@@ -41,7 +42,7 @@ let pokemonRepository = (function () {
   }
 
   //Put the item in the pokemonList onto the page
-  function addListItem(pokedexEntry, index) {
+  function addListItem(pokedexEntry) {
     //Find list in document and set to a variable
     let list = document.querySelector(".list");
 
@@ -54,7 +55,7 @@ let pokemonRepository = (function () {
 
     //Add text in button for Pokedex Number and Pokemon Name
     //button.innerText = `No.${index + 1}: ${pokedexEntry.name}`;
-    button.innerHTML = `No.${index + 1}: `;
+    button.innerHTML = `No.${pokedexEntry.num}: `;
     switch (pokedexEntry.name) {
       case "Nidoran-f":
         button.innerHTML += `${pokedexEntry.name.replace("-f", "&#9792;")}`;
@@ -105,7 +106,7 @@ let pokemonRepository = (function () {
           details.sprites.other["official-artwork"].front_default;
         pokemon.height = details.height / 10; //PokeAPI lists height in decimeters, so it needs to be divided by 10
         pokemon.weight = details.weight / 10; //same with weight
-        pokemon.number = details.id;
+        // pokemon.number = details.id;
         pokemon.types = details.types;
         //Map an array out for base stats
         pokemon.baseStats = details.stats.map(function (stat) {
@@ -160,14 +161,47 @@ let pokemonRepository = (function () {
     });
   }
 
+  function filterItems(userInput){  //input is what users type in
+
+    let filteredItems = pokemonRepository.getAll().filter(function(pokemon){ //store filtered items in a variable
+      let lowercaseNames = pokemon.name.toLowerCase().replace("-", " "); //change the names in the array to lower case and replace hyphens
+      return lowercaseNames.includes(userInput); //return the names in lowercase that has items with the user's input
+    }); 
+
+    document.querySelector(".list").innerHTML = ""; //clear the list
+
+    //refill the list with the filtered items
+    filteredItems.forEach(function (pokedexEntry) {//go through each entry
+      pokemonRepository.addListItem(pokedexEntry); //and then add that item to the list
+    });
+    //console.log(filteredItems);
+  }
+
   return {
     add: add,
     getAll: getAll,
     addListItem: addListItem,
     loadList: loadList,
     loadDetails: loadDetails,
+    filterItems: filterItems
   };
 })();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // //IIFE for modal
 let listModal = (function () {
@@ -206,7 +240,7 @@ let listModal = (function () {
 
     //Create modal title AKA Entry No. and Pokemon Name
     let titleElement = document.createElement("h1");
-    titleElement.innerHTML = `No.${pokedexEntry.number}: `;
+    titleElement.innerHTML = `No.${pokedexEntry.num}: `;
     switch (pokedexEntry.name) {
       case "Nidoran-f":
         titleElement.innerHTML += `${pokedexEntry.name.replace(
@@ -312,11 +346,31 @@ let listModal = (function () {
   };
 })();
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 //Load data
 pokemonRepository.loadList().then(function () {
   //Add all items in the repository into the list
-  pokemonRepository.getAll().forEach(function (pokedexEntry, index) {
+  pokemonRepository.getAll().forEach(function (pokedexEntry) {
     //go through each entry
-    pokemonRepository.addListItem(pokedexEntry, index); //and then add that item to the list
+    pokemonRepository.addListItem(pokedexEntry); //and then add that item to the list
   });
 });
+
+
+//Filter using the input
+document.querySelector(".search-bar input").addEventListener("input", function(){
+  let lowercaseInput = this.value.toLowerCase(); //make the input all lowercase
+  pokemonRepository.filterItems(lowercaseInput);
+})
